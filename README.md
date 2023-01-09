@@ -12,7 +12,7 @@
 
 ---
 
-## ➕ Install
+### 安装
 
 ```shell script
 # Npm
@@ -25,7 +25,7 @@ $ yarn add @banu/localstorage-slim
 $ pnpm add @banu/localstorage-slim
 ```
 
-引入
+> 引入
 
 ```javascript
 // using ES6 modules
@@ -35,12 +35,12 @@ import ls from '@banu/localstorage-slim';
 const ls = require('@banu/localstorage-slim');
 ```
 
-## 🌱 Usage
+### 使用
 
 #### Javascript
 
 ```javascript
-/*** Store in localstorage ***/
+/* 存储在本地存储 */
 const value = {
   a: new Date(),
   b: null,
@@ -49,84 +49,84 @@ const value = {
   e: 1234,
 };
 
-ls.set('key1', value); // value can be anything (object, array, string, number, ...)
+ls.set('key1', value); // 值可以是任何东西（对象、数组、字符串、数字……）
 ls.get('key1'); // { a: "currentdate", b: "null", c: false, d: 'superman', e: 1234 }
 
-/* with optional ttl in seconds */
+/* 以秒为单位的可选 ttl */
 ls.set('key2', value, { ttl: 5 });
 ls.get('key2'); // within 5 secs => { a: "currentdate", b: "null", c: false, d: 'superman', e: 1234 }
 ls.get('key2'); // after 5 secs => null
 
-/* with optional encryption */
-ls.set('key3', value, { encrypt: true }); // "mÆk¬k§m®À½½°¹¿¯..."
+/* 可选加密 */
+ls.set('key3', value, { encrypt: true });
 ls.get('key3', { decrypt: true }); // { a: "currentdate", b: "null", c: false, d: 'superman', e: 1234 }
 ```
 
 ---
 
-## <a id="config">🔧 配置</a>
+### 配置
 
-`LocalStorage-slim` provides you a config object (**`ls.config`**) which can be modified to suit your needs. The available config parameters are as follows and all of them are completely **OPTIONAL**
+`LocalStorage-slim` 为您提供了一个配置对象 (**`ls.config`**)，可以对其进行修改以满足您的需要。可用的配置参数如下，所有这些都是完全**可选的**
 
-| Parameter                                                        | Description                                                                                                                                                                                                                 | Default       |
-| ---------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
-| `ttl?: number\|null`                                             | Allows you to set a global TTL(time to live) **in seconds** which will be used for every item stored in the localStorage. **Global `ttl`** can be overriden with the `ls.set()/ls.get()` API.                               | null          |
-| `encrypt?: boolean`                                              | Allows you to setup global encryption of the data stored in localStorage [Details](#encryption). It can be overriden with the `ls.set()/ls.get()` API                                                                       | false         |
-| `decrypt?: boolean`                                              | Allows you to decrypt encrypted data stored in localStorage. Used **only** by the [`ls.get()`](#lsget) API                                                                                                                  | undefined     |
-| `encrypter?: (data: unknown, secret: string): string`            | An encryption function whose signature can be seen on the left. A default implementation only obfuscates the value. This function can be overriden with the `ls.set()/ls.get()` API.                                        | Obfuscation   |
-| `decrypter?: (encryptedString: string, secret: string): unknown` | A decryption function whose signature can be seen on the left. A default implementation only performs deobfuscation. This function can be overriden with the `ls.set()/ls.get()` API.                                       | deobfuscation |
-| `secret?: unknown`                                               | Allows you to set a secret key that will be passed to the encrypter/decrypter functions as a parameter. The default implementation accepts a number. **Global `secret`** can be overriden with the `ls.set()/ls.get()` API. |               |
+| Parameter                                                        | Description                                                                                                                                    | Default       |
+| ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| `ttl?: number\|null`                                             | 允许您设置全局 TTL（生存时间）**以秒为单位**，这将用于存储在 localStorage 中的每个项目。 **全局 `ttl`**可以使用 `ls.set()/ls.get()` API 覆盖。 | null          |
+| `encrypt?: boolean`                                              | 允许您设置存储在 localStorage [详细信息](#encryption) 中的数据的全局加密。它可以用 `ls.set()/ls.get()` API 覆盖。                              | false         |
+| `decrypt?: boolean`                                              | 允许您解密存储在 localStorage 中的加密数据。 **仅**由 [`ls.get()`](#lsget) API 使用。                                                          | undefined     |
+| `encrypter?: (data: unknown, secret: string): string`            | 一个加密函数，其签名可以在左边看到。默认实现只会混淆值。可以使用 `ls.set()/ls.get()` API 覆盖此函数。                                          | Obfuscation   |
+| `decrypter?: (encryptedString: string, secret: string): unknown` | 一个解密函数，其签名可以在左边看到。默认实现仅执行反混淆。可以使用 `ls.set()/ls.get()` API 覆盖此函数。                                        | deobfuscation |
+| `secret?: unknown`                                               | 允许您设置将作为参数传递给加密器/解密器函数的密钥。默认实现接受一个数字。 **全局 `secret`**可以使用 `ls.set()/ls.get()` API 覆盖。             |               |
 
 ---
 
-### <a id="encryption">🧬 Encryption/Decryption</a>
+### Encryption/Decryption
 
-LocalStorage-slim allows you to encrypt the data that will be stored in your localStorage.
+LocalStorage-slim 允许您加密将存储在 localStorage 中的数据。
 
 ```javascript
-// enable encryption globally
+// 全局启用加密
 ls.config.encrypt = true;
 
-// optionally use a different secret key
+// 可选择使用不同的密钥
 ls.config.secret = 89;
 ```
 
-Enabling encryption ensures that the data stored in your localStorage will be unreadable by majority of the users. **Be aware** of the fact that default implementation is not a true encryption but a mere obfuscation to keep the library light in weight. You can customize the `encrypter`/`decrypter` functions to write your own algorithm or to use a secure encryption algorithm like **AES**, **TDES**, **RC4** or **rabbit** via **[CryptoJS](https://www.npmjs.com/package/crypto-js)** to suit your needs.
+启用加密可确保大多数用户无法读取存储在 localStorage 中的数据。 **注意**默认实现不是真正的加密，而只是为了保持库的轻量化而进行的混淆。您可以自定义 `encrypter`/`decrypter` 函数以编写您自己的算法或使用安全加密算法，如 **AES**、**TDES**、**RC4**或 **rabbit**通过 **[CryptoJS](https://www.npmjs.com/package/crypto-js)**以满足您的需求。
 
-To use a library like CryptoJS, update the following config options -
+要使用像 CryptoJS 这样的库，请更新以下配置选项：
 
 ```javascript
-// enable encryption
+// 启用加密
 ls.config.encrypt = true;
-// set a global secret
+// 设置一个全局 secret
 ls.config.secret = 'secret-password';
 
-// override encrypter function
+// 覆盖加密函数
 ls.config.encrypter = (data: unknown, secret: string): string => 'encrypted string';
-// override decrypter function
+// 覆盖解密函数
 ls.config.decrypter = (encryptedString: string, secret: string): unknown => 'original data';
 ```
 
-As seen, you can easily override the `encrypter` and `decrypter` functions with your own implementation of encryption/decryption logic to secure your data. Some examples can be found [here](https://digitalfortress.tech/js/encrypt-localstorage-data/).
+如上所示，您可以使用自己的加密/解密逻辑实现轻松覆盖“encrypter”和“decrypter”函数以保护数据。可以在[此处](https://digitalfortress.tech/js/encrypt-localstorage-data/) 找到一些示例。
 
 ```javascript
-// After updating the config, use ls as you normally would
-ls.set(...); // internally calls ls.config.encrypter(...);
-ls.get(...); // internally calls ls.config.decrypter(...);
+// 更新配置后，像往常一样使用 ls
+ls.set(...); // 内部调用 ls.config.encrypter(...);
+ls.get(...); // 内部调用 ls.config.decrypter(...);
 
-// you can encrypt a particular LS item by providing a different secret as well.
+// 您也可以通过提供不同的秘密来加密特定的 LS 项目。
 ls.set("key", "value", { secret: 'xyz'});
 ls.get("key", { secret: 'xyz'});
 
 ```
 
-**⚠️ Note**: It is recommended that you **do not** save user passwords or credit card details in LocalStorage (whether they be encrypted or not).
+**注意**：建议您**不要**在 LocalStorage 中保存用户密码或信用卡详细信息（无论是否加密）。
 
 ---
 
-## ✨ API
+### API
 
-The Api is very similar to that of the native `LocalStorage API`.
+该 API 与原生的“LocalStorage API”非常相似。
 
 - [`ls.set()`](#lsset)
 - [`ls.get()`](#lsget)
@@ -136,71 +136,71 @@ The Api is very similar to that of the native `LocalStorage API`.
 
 ---
 
-#### 🔸 1. <a id="lsset">`ls.set(key, value, config = {})`</a>
+#### 1.`ls.set(key, value, config = {})`
 
-Sets an item in the LocalStorage. It can accept 3 arguments
+在 LocalStorage 中设置一个项目。它可以接受 3 个参数
 
-1. `key: string` **[Required]** - The key with which the value should be associated
-2. `value: string|Date|Number|Object|Boolean|Null` **[Required]** - The value to be stored
-3. `config: Config` **[Optional]** - This argument accepts the same properties as the [global config](#config) object. Defaults to an empty object
+1. `key: string` **[Required]**-值应该关联的键
+2. `value: string|Date|Number|Object|Boolean|Null` **[必需]**-要存储的值
+3. `config: Config` **[可选]**-此参数接受与 [global config](#config) 对象相同的属性。默认为空对象
 
-Returns `false` if there was an error, else returns `undefined`.
+如果出现错误，则返回“false”，否则返回“undefined”。
 
 ```javascript
 const res = ls.set('key', 'value');
-console.log('Value =>', res); // returns undefined if successful or false if there was a problem
+console.log('Value =>', res); // 如果成功则返回 undefined，如果有问题则返回 false
 
 // with ttl
-ls.config.ttl = 3; // global ttl set to 3 seconds
-ls.set('key', 'value'); // value expires after 3s
-ls.set('key', 'value', { ttl: 5 }); // value expires after 5s (overrides global ttl)
+ls.config.ttl = 3; // 全局 ttl 设置为 3 秒
+ls.set('key', 'value'); // 值在 3 秒后过期
+ls.set('key', 'value', { ttl: 5 }); // 值在 5 秒后过期（覆盖全局 ttl）
 
-// with encryption (to encrypt particular fields)
+// 加密（加密特定字段）
 ls.set('key', 'value', { encrypt: true });
 ```
 
-#### 🔸 2. <a id="lsget">`ls.get(key, config = {})`</a>
+#### 2.`ls.get(key, config = {})`
 
-Retrieves the Data associated with the key stored in the LocalStorage. It accepts 2 arguments -
+检索与存储在 LocalStorage 中的密钥关联的数据。它接受 2 个参数
 
-1. `key: string` **[Required]** - The key with which the value is associated
-2. `config: Config` **[Optional]** - This argument accepts the same properties as the [global config](#config) object. Defaults to an empty object
+1. `key: string` **[Required]**-值关联的键
+2. `config: Config` **[可选]**-此参数接受与 [global config](#config) 对象相同的属性。默认为空对象
 
-If the passed key does not exist, it returns `null`.
+如果传递的密钥不存在，则返回“null”。
 
 ```javascript
 const value = ls.get('key');
-console.log('Value =>', value); // value retrieved from LS
+console.log('Value =>', value); // 从 LS 检索的值
 
-// if ttl was set
-ls.get('key'); // returns the value if ttl has not expired, else returns null
+// 如果设置了 ttl
+ls.get('key'); // 如果 ttl 未过期则返回值，否则返回 null
 
-// when a particular field is encrypted, and it needs decryption
+// 当特定字段被加密并且需要解密时
 ls.get('key', { decrypt: true });
 
-// get decrypted value when global encryption is enabled
+// 启用全局加密时获取解密值
 ls.config.encrypt = true;
-ls.get('key'); // returns decrypted value
+ls.get('key'); // 返回解密值
 ```
 
-#### 🔸 3. <a id="lsflush">`ls.flush(force = false)`</a>
+#### 3.`ls.flush(force = false)`
 
-Flushes expired items in the localStorage. This function is called once automatically on initialization. It can accept an **optional** argument `force: boolean` that defaults to `false`. If set to `true`, it force-flushes all items including the ones that haven't expired yet. Note that doing `flush(true)` only affects items that were due to expire sometime in future (i.e. they had a TTL set on them). To remove data, whether or not it has a TTL, use `remove()` or `clear()`.
+刷新 localStorage 中的过期项目。此函数在初始化时自动调用一次。它可以接受一个 **可选**参数 `force: boolean`，默认为 `false`。如果设置为“true”，它会强制刷新所有项目，包括尚未过期的项目。请注意，执行 `flush(true)` 只会影响将在未来某个时间到期的项目（即它们设置了 TTL）。要删除数据，无论它是否具有 TTL，请使用 `remove()` 或 `clear()`。
 
 ```javascript
-// removes all expired data (i.e. ttl has expired)
+// 删除所有过期数据（即 ttl 已过期）
 ls.flush();
-// removes all data that has a ttl (i.e. even if the ttl has not expired yet)
+// 删除所有具有 ttl 的数据（即即使 ttl 尚未过期）
 ls.flush(true);
 ```
 
-#### 🔸 4. <a id="lsremove">`ls.remove(key)`</a>
+#### 4.`ls.remove(key)`
 
-Accepts the `key: string` as an argument to remove the data associated with it.
+接受 `key: string` 作为参数以删除与其关联的数据。
 
 ```javascript
-// delete data from the LS
-ls.remove('key'); // returns undefined if successful, false otherwise
+// 从 LS 中删除数据
+ls.remove('key'); // 如果成功则返回 undefined，否则返回 false
 ```
 
 #### 🔸 5.<a id="lsclear">`ls.clear()`</a>
@@ -208,6 +208,6 @@ ls.remove('key'); // returns undefined if successful, false otherwise
 Clears the entire localstorage linked to the current domain.
 
 ```javascript
-// removes all data from the LS
-ls.clear(); // returns undefined if successful, false otherwise
+// 从 LS 中删除所有数据
+ls.clear(); // 如果成功则返回 undefined，否则返回 false
 ```
