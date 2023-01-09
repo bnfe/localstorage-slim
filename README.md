@@ -203,9 +203,9 @@ ls.flush(true);
 ls.remove('key'); // 如果成功则返回 undefined，否则返回 false
 ```
 
-#### 🔸 5.<a id="lsclear">`ls.clear()`</a>
+#### 5.`ls.clear()`
 
-Clears the entire localstorage linked to the current domain.
+清除链接到当前域的整个本地存储。
 
 ```javascript
 // 从 LS 中删除所有数据
