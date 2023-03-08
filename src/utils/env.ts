@@ -1,4 +1,13 @@
-export const ENV_TYPE = {
+declare global {
+  const wx: any;
+  const tt: any;
+  const qq: any;
+  const jd: any;
+  const swan: any;
+  const my: any;
+}
+
+const ENV_TYPE = {
   WEAPP: 'WEAPP',
   WEB: 'WEB',
   RN: 'RN',
@@ -10,6 +19,10 @@ export const ENV_TYPE = {
 };
 
 let _env: string | null = null;
+
+function isExist(value: unknown) {
+  return typeof value !== 'undefined' && value !== null;
+}
 
 export function getEnv(): string {
   if (_env) return _env;

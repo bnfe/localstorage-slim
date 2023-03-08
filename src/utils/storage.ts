@@ -1,4 +1,4 @@
-import { getEnv } from '../env';
+import { getEnv } from './env';
 export type MyStorage = {
   getItem: (key: string) => unknown;
   setItem: (key: string, value: unknown) => void | boolean;
