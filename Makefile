@@ -19,4 +19,4 @@ prod:		## Build for Production environment
 publish:	## Publish to NPM
 	@make prod
 	@make test
-	# @npm publish --registry https://www.npmjs.com
+	@npm publish --registry https://www.npmjs.com --access public
