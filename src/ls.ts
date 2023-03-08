@@ -1,7 +1,21 @@
-import { isObject, NOOP } from './helpers';
-import type { Encrypter, Decrypter, LocalStorageConfig } from './types';
+import localStorage from './utils/storage';
+type Encrypter = (...args: unknown[]) => string;
+type Decrypter = (...args: unknown[]) => string;
 
-import localStorage from './storage';
+interface LocalStorageConfig {
+  ttl?: number | null;
+  encrypt?: boolean;
+  decrypt?: boolean;
+  encrypter?: Encrypter;
+  decrypter?: Decrypter;
+  secret?: unknown;
+}
+
+const NOOP = (...args: unknown[]): unknown => undefined;
+
+const isObject = (item: any): boolean => {
+  return item !== null && item.constructor.name === 'Object';
+};
 
 // private flags
 let hasLS: boolean;
@@ -32,7 +46,7 @@ const APX = String.fromCharCode(0);
 // tiny obsfuscator
 const obfus: Encrypter | Decrypter = (str, key, encrypt = true) => {
   return encrypt
-    ? [...((JSON.stringify(str) as unknown) as string[])]
+    ? [...(JSON.stringify(str) as unknown as string[])]
         .map((x) => String.fromCharCode(x.charCodeAt(0) + (key as number)))
         .join('')
     : JSON.parse([...(str as string[])].map((x) => String.fromCharCode(x.charCodeAt(0) - (key as number))).join(''));
@@ -156,7 +170,7 @@ export default {
   config,
   set,
   get,
-  flush,
-  clear,
   remove,
+  clear,
+  flush,
 };

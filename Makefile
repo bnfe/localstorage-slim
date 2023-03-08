@@ -18,6 +18,6 @@ prod:		## Build for Production environment
 
 publish:	## Publish to NPM
 	@make prod
-	@npm run copy-typescript-definitions
 	@make test
-	@npm publish --registry https://npm.banu.cn/
+	# @npm publish --registry https://npm.banu.cn/
+	@npm publish --registry http://localhost:4873/
