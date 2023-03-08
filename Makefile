@@ -19,5 +19,4 @@ prod:		## Build for Production environment
 publish:	## Publish to NPM
 	@make prod
 	@make test
-	# @npm publish --registry https://npm.banu.cn/
-	@npm publish --registry http://localhost:4873/
+	# @npm publish --registry https://www.npmjs.com
