@@ -1,8 +1,6 @@
-# localstorage-slim
+## localstorage-slim
 
 ### 本项目 Fork [niketpathak/localstorage-slim](https://github.com/digitalfortress-tech/localstorage-slim), 添加支持小程序
-
----
 
 一个超轻量级的库, 只有 3 KB 的本地存储工具，可选支持**ttl**和**加密**，支持**小程序**和**web**
 
@@ -10,29 +8,27 @@
 - ⏰ 支持 **TTL**
 - 🧬 支持 **encryption/decryption**
 
----
-
 ### 安装
 
 ```shell script
 # Npm
-$ npm install --save @banu/localstorage-slim
+$ npm install --save @bnfe/localstorage-slim
 
 # Yarn
-$ yarn add @banu/localstorage-slim
+$ yarn add @bnfe/localstorage-slim
 
 # pnpm
-$ pnpm add @banu/localstorage-slim
+$ pnpm add @bnfe/localstorage-slim
 ```
 
 > 引入
 
 ```javascript
 // using ES6 modules
-import ls from '@banu/localstorage-slim';
+import ls from '@bnfe/localstorage-slim';
 
 // using CommonJS modules
-const ls = require('@banu/localstorage-slim');
+const ls = require('@bnfe/localstorage-slim');
 ```
 
 ### 使用
@@ -62,8 +58,6 @@ ls.set('key3', value, { encrypt: true });
 ls.get('key3', { decrypt: true }); // { a: "currentdate", b: "null", c: false, d: 'superman', e: 1234 }
 ```
 
----
-
 ### 配置
 
 `LocalStorage-slim` 为您提供了一个配置对象 (**`ls.config`**)，可以对其进行修改以满足您的需要。可用的配置参数如下，所有这些都是完全**可选的**
@@ -76,8 +70,6 @@ ls.get('key3', { decrypt: true }); // { a: "currentdate", b: "null", c: false, d
 | `encrypter?: (data: unknown, secret: string): string`            | 一个加密函数，其签名可以在左边看到。默认实现只会混淆值。可以使用 `ls.set()/ls.get()` API 覆盖此函数。                                          | Obfuscation   |
 | `decrypter?: (encryptedString: string, secret: string): unknown` | 一个解密函数，其签名可以在左边看到。默认实现仅执行反混淆。可以使用 `ls.set()/ls.get()` API 覆盖此函数。                                        | deobfuscation |
 | `secret?: unknown`                                               | 允许您设置将作为参数传递给加密器/解密器函数的密钥。默认实现接受一个数字。 **全局 `secret`**可以使用 `ls.set()/ls.get()` API 覆盖。             |               |
-
----
 
 ### Encryption/Decryption
 
@@ -122,8 +114,6 @@ ls.get("key", { secret: 'xyz'});
 
 **注意**：建议您**不要**在 LocalStorage 中保存用户密码或信用卡详细信息（无论是否加密）。
 
----
-
 ### API
 
 该 API 与原生的“LocalStorage API”非常相似。
@@ -133,8 +123,6 @@ ls.get("key", { secret: 'xyz'});
 - [`ls.flush()`](#lsflush)
 - [`ls.remove()`](#lsremove)
 - [`ls.clear()`](#lsclear)
-
----
 
 #### 1.`ls.set(key, value, config = {})`
 

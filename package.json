@@ -2,7 +2,7 @@
   "name": "@bnfe/localstorage-slim",
   "title": "@bnfe/localstorage-slim",
   "description": "轻量级, 只有3KB的本地存储工具，可选支持ttl和加密，支持小程序和web",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "https://github.com/bnfe/localstorage-slim",
   "scripts": {
     "build": "rollup -c",
@@ -23,8 +23,7 @@
     "email": "tangtianbo25@outlook.com"
   },
   "types": "dist/ls.d.ts",
-  "browser": "dist/index.umd.js",
-  "main": "dist/index.esm.js",
+  "main": "dist/index.umd.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/bnfe/localstorage-slim"

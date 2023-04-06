@@ -21,7 +21,7 @@ export default {
     {
       name: 'ls',
       file: 'dist/index.esm.js',
-      format: 'esm',
+      format: 'es',
     },
   ],
   plugins: [
