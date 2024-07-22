@@ -166,7 +166,7 @@ const clear = (): undefined | false => {
   localStorage.clear();
 };
 
-export default {
+const ls = {
   config,
   set,
   get,
@@ -174,3 +174,5 @@ export default {
   clear,
   flush,
 };
+
+export default ls;
